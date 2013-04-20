@@ -69,12 +69,9 @@ package ponder ;
     	    #pick one phrase object
             my $random_phrase = $ponder_phrases[ rand( scalar(@ponder_phrases) ) ]->{'content'};
 
-            
-            $irc->_send_event(
-                    'say' ,
-                    $channel ,
-                    &filter($random_phrase,$nick,[$irc->channel_list($channel)],$botname ),
-                    2+int(rand (2)) );
+            my $content=&filter($random_phrase,$nick,[$irc->channel_list($channel)],$botname );            
+            my $wait=2+int(rand (2));
+            $irc->delay([ privmsg =>  $channel => $content],$wait);
             
             # warning allow him to say "back off"
 			$ziggy_data->{'ponder_warning'}=0;
@@ -86,12 +83,9 @@ package ponder ;
 
             my $warning_text=$ziggy_config_ref->{'ponder'}->{'warning'};
 
-            $irc->_send_event(
-                    'say' ,   
-                    $channel ,
-                    &filter($warning_text,$nick,[$irc->channel_list($channel)],$botname ),
-                    2+int(rand(2)) );
-
+            my $content=&filter($warning_text,$nick,[$irc->channel_list($channel)],$botname );            
+            my $wait=2+int(rand (2));
+            $irc->delay([ privmsg =>  $channel => $content],$wait);
 
             return PCI_EAT_NONE; # Default action is to allow other plugins to process it.
         }else{
@@ -114,7 +108,7 @@ package ponder ;
                 $logger->info("help for ponder...");
                 &help($ziggy_config_ref,$nick,$irc);
             }elsif($msg =~/help *$/){
-                $irc->_send_event( 'say' ,  $nick, "ponder",1);
+                my $alert=$irc->delay( [ privmsg => $nick => "ponder"   ], 1 );
             }
             return PCI_EAT_NONE;
         }
@@ -123,9 +117,9 @@ package ponder ;
     sub help {
         my ($ziggy_config_ref,$target,$irc)=@_;
 		my $logger = get_logger("Ziggy::Ponder");
-        $irc->_send_event( 'say' ,  $target, "      Ponder:",1);
-        $irc->_send_event( 'say' ,  $target, "            Triggers:  say \"ziggy. are you pondering what I'm pondering?\"",1);
-        $irc->_send_event( 'say' ,  $target, "            Delay:     I only do it once every ".$ziggy_config_ref->{'ponder'}->{'interval'}." seconds",1);
+        $irc->delay( [ privmsg => $target => "      Ponder:"],1);
+        $irc->delay( [ privmsg => $target => "            Triggers:  say \"ziggy, are you pondering what I'm pondering?\""],1);
+        $irc->delay( [ privmsg => $target => "            Delay:     I only do it once every ".$ziggy_config_ref->{'ponder'}->{'interval'}." seconds"],1);
    } 
     
 #-----------------------------------------------------------

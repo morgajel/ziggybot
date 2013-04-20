@@ -74,12 +74,10 @@ package dndrules ;
 			my $random_phrase = "Rule #".$rulenumber.": ".$random_phrase_obj->{'content'};
             $logger->debug("I should say: $random_phrase");
 
-            
-            $irc->_send_event(
-                    'say' ,
-                    $channel ,
-                    &filter($random_phrase,$nick,[$irc->channel_list($channel)],$botname ),
-                    2+int(rand (2)) );
+            my $content=&filter($random_phrase,$nick,[$irc->channel_list($channel)],$botname );            
+            my $wait=2+int(rand (2));
+            $irc->delay([ privmsg =>  $channel => $content],$wait);
+
             
             # warning allow him to say "back off"
 			$ziggy_data->{'dndrule_warning'}=0;
@@ -91,12 +89,9 @@ package dndrules ;
 
             my $warning_text=$ziggy_config_ref->{'dndrules'}->{'warning'};
 
-            $irc->_send_event(
-                    'say' ,   
-                    $channel ,
-                    &filter($warning_text,$nick,[$irc->channel_list($channel)],$botname ),
-                    2+int(rand(2)) );
-
+            my $content=&filter($warning_text,$nick,[$irc->channel_list($channel)],$botname );            
+            my $wait=2+int(rand (2));
+            $irc->delay([ privmsg =>  $channel => $content],$wait);
 
             return PCI_EAT_NONE; # Default action is to allow other plugins to process it.
         }else{
@@ -118,7 +113,7 @@ package dndrules ;
                 $logger->info("help for DnD Rules...");
                 &help($ziggy_config_ref,$nick,$irc);
             }elsif($msg =~/help *$/){
-                $irc->_send_event( 'say' ,  $nick, "dndrules",1);
+                $irc->delay([ privmsg =>  $nick => "dndrules"],1);
             }
             
             return PCI_EAT_NONE;
@@ -128,10 +123,10 @@ package dndrules ;
     sub help {
         my ($ziggy_config_ref,$target,$irc)=@_;
 		my $logger = get_logger("Ziggy::DnD Rules");
-        $irc->_send_event( 'say' ,  $target, "      DnD Rules:",1);
-        $irc->_send_event( 'say' ,  $target, "            Triggers:  say \"[bot], blah blah DnD Rule blah\"",1);
-        $irc->_send_event( 'say' ,  $target, "            Delay:     I only do it once every ".$ziggy_config_ref->{'dndrules'}->{'interval'}." seconds",1);
-        $irc->_send_event( 'say' ,  $target, "            There are currently ".scalar( @{ $ziggy_config_ref->{'dndrules'}->{'option'} } )." dndrules in the database.",1);
+        $irc->delay([ privmsg =>  $target => "      DnD Rules:"],1);
+        $irc->delay([ privmsg =>  $target => "            Triggers:  say \"[bot], blah blah DnD Rule blah\""],1);
+        $irc->delay([ privmsg =>  $target => "            Delay:     I only do it once every ".$ziggy_config_ref->{'dndrules'}->{'interval'}." seconds"],1);
+        $irc->delay([ privmsg =>  $target => "            There are currently ".scalar( @{ $ziggy_config_ref->{'dndrules'}->{'option'} } )." dndrules in the database."],1);
    } 
 
     

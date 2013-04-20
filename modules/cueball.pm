@@ -69,12 +69,9 @@ package cueball ;
     	    #pick one phrase object
             my $random_phrase = $cueball_phrases[ rand( scalar(@cueball_phrases) ) ]->{'content'};
 
-            
-            $irc->_send_event(
-                    'say' ,
-                    $channel ,
-                    &filter($random_phrase,$nick,[$irc->channel_list($channel)],$botname ),
-                    2+int(rand (2)) );
+            my $content=&filter($random_phrase,$nick,[$irc->channel_list($channel)],$botname );            
+            my $wait=2+int(rand (2));
+            $irc->delay([ privmsg =>  $channel => $content],$wait);
             
             # warning allow him to say "back off"
 			$ziggy_data->{'cueball_warning'}=0;
@@ -86,12 +83,9 @@ package cueball ;
 
             my $warning_text=$ziggy_config_ref->{'cueball'}->{'warning'};
 
-            $irc->_send_event(
-                    'say' ,   
-                    $channel ,
-                    &filter($warning_text,$nick,[$irc->channel_list($channel)],$botname ),
-                    2+int(rand(2)) );
-
+            my $content=&filter($warning_text,$nick,[$irc->channel_list($channel)],$botname );            
+            my $wait=2+int(rand (2));
+            $irc->delay([ privmsg =>  $channel => $content],$wait);
 
             return PCI_EAT_NONE; # Default action is to allow other plugins to process it.
         }else{
@@ -114,7 +108,7 @@ package cueball ;
                 $logger->info("help for cueball...");
                 &help($ziggy_config_ref,$nick,$irc);
             }elsif($msg =~/help *$/){
-                $irc->_send_event( 'say' ,  $nick, "cueball",1);
+                $irc->delay([ privmsg =>  $nick => "cueball"],1);
             }
             return PCI_EAT_NONE;
         }
@@ -123,9 +117,9 @@ package cueball ;
     sub help {
         my ($ziggy_config_ref,$target,$irc)=@_;
 		my $logger = get_logger("Ziggy::Cueball");
-        $irc->_send_event( 'say' ,  $target, "      Cueball:",1);
-        $irc->_send_event( 'say' ,  $target, "            Triggers:  say \"magic cueball, blah blah blah?\"",1);
-        $irc->_send_event( 'say' ,  $target, "            Delay:     I only do it once every ".$ziggy_config_ref->{'cueball'}->{'interval'}." seconds",1);
+        $irc->delay([ privmsg =>  $target => "      Cueball:"],1);
+        $irc->delay([ privmsg =>  $target => "            Triggers:  say \"magic cueball, blah blah blah?\""],1);
+        $irc->delay([ privmsg =>  $target => "            Delay:     I only do it once every ".$ziggy_config_ref->{'cueball'}->{'interval'}." seconds"],1);
    } 
     
 #-----------------------------------------------------------
