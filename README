@@ -1,0 +1,37 @@
+Ziggy isn't the brightest bot, but here's a simple configuration of him.
+I'm going to include the dribbly personality file, because, well ziggy has his secrets.
+
+dribbly's is much more managable.
+simply copy dribbly.xml to config.xml and he'll be good to go.
+
+
+There's still a lot of ziggy-hardcoded stuff that needs to be changed:
+- registration email
+- "magic cueball"
+etc.
+
+
+To become an administrator of the bot, run ziggy.pl with the dribbly.xml
+foo@home $ ./ziggy.pl dribbly.xml
+register a user by messaging the bot "register username emailaddress"
+emailaddress has to be a valid email. The bot will email you a password
+Once you receive this password, a users.xml file will be generated in the
+bot's "home directory." you'll see an entry for your user. Simply add "admin="1"
+
+ <user name="morgajel" email="irc@morgajel.com" pass="e16b2ab8d12314bf4efbd6203906ea6c" />
+becomes
+ <user name="morgajel" admin="1" email="irc@morgajel.com" pass="e16b2ab8d12314bf4efbd6203906ea6c" />
+
+
+TODO
+- remove all ziggy-coded sayings from code.
+
+
+
+
+
+
+
+
+
+

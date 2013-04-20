@@ -1,0 +1,78 @@
+    Setting up registration... how do I want to handle this?
+
+    here are the implications... I'll have to change the security/authentication model. currently there is no authorization
+    you identify, you get full control. should create an admin flags and implement. 
+  
+DONE
+
+    what do I need to add?
+
+    create new accounts 
+DONE
+    change passwords    
+DONE
+    recover/reset passwords
+NOPE  
+    change access to say and act to admin only. 
+DONE
+
+
+    a method to securely save the ziggy_config_ref 
+    
+implemented for users.xml, but not for config_ref
+
+
+
+
+    what features will newly registered users want?
+    message service
+    - based on username? nickname? how's it stored?
+    - messy. requires thought.
+NOPE
+
+
+    module ideas
+    last seen (hash storing the last thing said by everyone and a timestamp)
+NOPE
+
+
+
+
+    Alright, I'd like to set up a plugin system for ziggy.
+    PoCo-IRC::Plugins is the route to go, the problem is making code reloadable. 
+    I think I'll have to look into Module::Reload as well.
+    
+Combo of both- check out sample.pm in modules
+
+
+    So the question becomes, how do I use these?
+
+    if I think of the plugins as overlays, that might help
+
+    if I put a "load/unload"(plugin-based) and "reload"(mod::reload based) in the default handler
+    ziggy, load bar_brawl module
+
+    config file controls what modules are loaded by default, but there's still the problem of the initial 
+    use POE::Component::IRC::Plugin::ExamplePlugin;
+    I could have ziggy use
+    require 'modules/barBrawl.pm';
+    and now that I think of it, mod::reload requires you to use "require" rather than use.
+
+    but will that be problematic with PoCo? time will tell.
+    
+    so after loading up the XML file, I'll have to do a foreach {require "$_"}
+    
+    I suppose I should go block this info in
+
+read up in sample.pm to see the implementation- it can probably be cleaned up.
+
+
+    random should be a global action list. all methods should be able to insert/remove their own randoms
+DONE
+
+add load and unload commands for modules
+
+
+consider inheriting a basic module structure rather than recreating it for each plugin
+
+

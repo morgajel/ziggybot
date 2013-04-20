@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<config version="0.9" >
+	<core logconf="dribbly_log.conf">
+        <plugins>
+
+<!--
+M      modules/dnd.pm
+M      modules/svn.pm
+M      modules/eyeroll.pm
+M      modules/sample.pm
+M      modules/gong.pm
+
+
+           <module name="facts"/>
+           <module name="bar_brawl"/>
+            <module name="urmom"/>
+            <module name="cueball"/>
+            <module name="passgen"/>
+            <module name="wwzd"/>-->
+<!--            <module name="weather"/> requires the Weather.com module- check module for details. -->
+            <module name="dndrules"/>
+            <module name="dnd"/>
+			<module name="secretword"/>
+            <module name="facts"/>
+			<module name="bar_brawl"/>
+            <module name="urmom"/>
+            <module name="cueball"/>
+            <module name="passgen"/>
+            <module name="wwzd"/>
+            <module name="weather"/>
+        </plugins>
+
+	</core>
+	<connect server="morgajel.com" port="6667"  username="Dribbly" realname="Dribbly Slobberknocker" >
+        <channel name="#bottest"/>
+        <nick nickname="Dribbly"  password="#32fxfGd" />
+                        
+	</connect>
+
+	<dndrules interval="180" warning="BACK OFF RULE NAZI!" warning_count="1" >
+
+        <option number="247" >If the king rewards me with a forest, I am to assume he intends for me to keep it a forest.</option>
+        <option number="248" >There is no Dwarven God of groin shots.</option>
+        <option number="249" >If a black op requires me to impersonate an employee, I cannot bill the target for overtime.</option>
+        <option number="250" >Superfluous Man is not a viable superhero concept.</option>
+    </dndrules>
+
+    <join wait="28000" chance="10">
+        <message>oh great, [target] showed up.</message>
+        <message>what do you want [target]?</message>
+        <message>hello [target], so yer still alive.</message>
+        <message>just don't even start, [target]</message>
+        <message>[target], I spit in your drink.</message>
+        <message>great, just who we needed</message>
+        <message>Oh, it's you.</message>
+        <message>Who let [target] in?</message>
+       
+    </join>
+    <part wait="140000" chance="2">
+        <message>Later [target]... don't let the door hit ya in the ass on the way out.</message>
+        <message>Eh, I really didn't line [target] anyways.</message>
+        <message>I don't see why you guys like [target].</message>
+    </part>
+
+
+
+<!-- 
+Unfortunately I don't have the randomizer module done at release time
+	<randomizer init_delay="3000">
+		<random type="action">sneers at [target]</random>
+		<random>god you people are boring.</random>
+		<random>ziggy, you talk too much.</random>
+		<random>shut the hell up.</random>
+		<random>human women aren't nearly hairy enough.</random>
+		<random>so, does anyone here have any hot, single grandmothers?</random>
+		<random>hey, [target] does ziggy creep you out a bit?  that boy ain't right.</random>
+    </randomizer>
+-->
+    <cueball interval="300" warning="quit pesterin me." warning_count="2" >
+        <reply>All signs point to "Stupid", now go away..</reply>
+        <reply>Maybe- if you went far away.</reply>
+        <reply>I think that might happen... some day.</reply>
+        <reply>Probably not.</reply>
+        <reply>No.</reply>
+        <reply>Try again in a year or 10.</reply>
+        <reply>Ask Ziggy, he likes helping people.</reply>
+        <reply>Sure- Why not?</reply>
+
+    </cueball>
+<!-- =============================================  -->
+    <facts interval="180" warning="Shut up." warning_count="3">
+            <option>You're stupid and ugly.</option>
+            <option>You're ugly and stupid.</option>
+            <option>You're stupid and ugly and smell like an orc.</option>
+    </facts>
+<!-- =============================================  -->
+    <urmom interval="300" intro_chance="50" >
+        <intro>Speaking of your mom, </intro>
+        <intro>That reminds me [target], </intro>
+        <intro>Speaking of ugly, </intro>
+        <intro>Speaking of dumb people, </intro>
+        <saying>ur mom said something like that last night, [target]- after the moaning.</saying>
+        <saying>ur mom's ugly.</saying>
+    </urmom>
+    
+<!-- =============================================  -->
+
+	<brawl announce="RHHAAAAAAAAAAAAHHHHHHHH!!!" min_delay="3" max_delay="10"   end="I needed a good fight." interval="36000">
+		<brawl_option type="act">throws a chair at [target].</brawl_option>
+		<brawl_option type="act">rages</brawl_option>
+		<brawl_option type="act">punches [target] in the side.</brawl_option>
+		<brawl_option type="act">punches [target] in the face.</brawl_option>
+		<brawl_option type="act">bites [target] on the shin.</brawl_option>
+		<brawl_option type="act">slobbers on [target].</brawl_option>
+		<brawl_option type="act">kicks [target] in the ass.</brawl_option>
+		<brawl_option type="act">chucks an empty bottle at [target]. </brawl_option>
+		<brawl_option type="act">throws [target] out a window.</brawl_option>
+		<brawl_option type="act">steps away from a punch thrown by [target].</brawl_option>
+		<brawl_option type="act">gets kicked in the groin by [target].</brawl_option>
+		<brawl_option type="act">puts [target] in a choke hold.</brawl_option>
+		<brawl_option type="act">bites [target]'s leg.</brawl_option>
+		<brawl_option type="act">hits [target] with a chair.</brawl_option>
+		<brawl_option type="act">headbutts [target].</brawl_option>
+		<brawl_option type="act">gets thrown over the bar.</brawl_option>
+		<brawl_option type="act">gets hit in the head from behind</brawl_option>
+		<brawl_option type="act">gets his nose broken again</brawl_option>
+		<brawl_option type="say">AHHHHHHHHHHHHHRRRRR!</brawl_option>
+		<brawl_option type="say">RRRRRRRRAAAAAAAAHHHHHHHHH!</brawl_option>
+		<brawl_option type="say">heheh!</brawl_option>
+		<brawl_option type="say">quit ticklin me and fight like a man ya sissy.</brawl_option>
+		<brawl_option type="say">Someone tie him down!</brawl_option>
+
+
+	</brawl>
+<!-- =============================================  -->
+	<secret_word interval="10">
+			<list>poodle</list>
+			<list>cat</list>
+			<list>car</list>
+<!--			<list>multiplex</list>
+			<list>dingo</list>
+			<list>jam</list>
+			<list>fruitcake</list>
+			<list>wench</list>
+			<list>turkey</list>
+			<list>goose</list>-->
+	</secret_word>
+<!-- =============================================  -->
+    <wwzd interval="300" warning="GO. AWAY." warning_count="1">
+        <reply>I'd hit you in the head.</reply>
+        <reply>I'd punch you in the face.</reply>
+        <reply>I'd visit "mature" adult sites.</reply>
+    </wwzd>
+
+
+
+<!-- ============================================== -->
+
+	<trigger text="old lady" type="say" delay="3" >did someone say hot chicks? where?</trigger>
+	<trigger text="hehehe"   type="say" delay="3" >ugh, where is my duct tape.</trigger>
+ 
+
+
+</config>
+
+
+
