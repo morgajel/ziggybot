@@ -58,7 +58,7 @@ push @INC, FindBin::again()."/lib";
 
 
 #Common functions are located in the lib directory
-use Common qw(filter authorized is_admin send_email generate_passwd username_unused verify_email);
+use Common qw(filter authorized is_admin send_email generate_passwd username_available verify_email);
 
 
 #-----------------------------------------------------------------
@@ -582,7 +582,7 @@ sub on_msg {
         my $username=$1;
         my $email=$2;
         $logger->info("ok, we're registering $username with $email");     
-        if (&username_unused($user_ref,$username)==1 and &verify_email($email)==1 ){
+        if (&username_available($user_ref,$username)==1 and &verify_email($email)==1 ){
             $logger->debug("$username and $email are good.");
 			$logger->info( "did email send? ".&send_email($user_ref,$username,$email));
             $kernel->delay_add( 'say',(1+rand(2)),$nick,"Alright, I sent you an email with your password. check it out and log in." );

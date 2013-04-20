@@ -6,8 +6,9 @@
 package Common ;
 use base qw(Exporter);
 use Exporter; 
+use Data::Dumper;
 use vars qw(@EXPORT_OK); 
-@EXPORT_OK = qw(filter authorized is_admin send_email generate_passwd username_unused verify_email);
+@EXPORT_OK = qw(filter authorized is_admin send_email generate_passwd username_available verify_email);
 use Log::Log4perl qw(get_logger);
 
 
@@ -62,13 +63,17 @@ sub authorized {
 
 }
 
+# This method is garbage.
 sub is_admin {
+    #TODO use authorized
     my ($user_ref, $ziggy_data, $who)=@_;
 	my $logger = get_logger("Ziggy::Common->is_admin");
-# checks to see if who is an admin.
+
+    # checks to see if who is an admin.
     foreach my $user ( keys  %{  $ziggy_data->{'authorized_users'} }  ) {
         $logger->info("are you an admin? ");
         my $username=$ziggy_data->{'authorized_users'}->{$user};
+
         if ($user eq $who and $user_ref->{'user'}->{$username}->{'admin'}){
             return 1;
         }
@@ -142,13 +147,14 @@ sub generate_passwd {
 
 
 
-sub username_unused {
+sub username_available {
     my ($user_ref,$username)=@_;
-	my $logger = get_logger("Ziggy::Common->username_unused");
+	my $logger = get_logger("Ziggy::Common->username_available");
+
     if (exists $user_ref->{'user'}->{$username}){
-     return 0; #this username is in use
+     return 0; #FAIL, exists
     }
-    return 1; # this username is unused, and hence what we want.
+    return 1; # this username is available, and hence what we want.
 }
 
 
@@ -164,8 +170,6 @@ sub verify_email {
     #nope
     return 0;
 }
-
-
 
 
 
